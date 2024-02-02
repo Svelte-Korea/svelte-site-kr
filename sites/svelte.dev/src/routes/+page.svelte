@@ -22,24 +22,24 @@
 	<div slot="one">
 		<h2>compiled</h2>
 		<p>
-			Svelte shifts as much work as possible out of the browser and into your build step. No more
-			manual optimisations — just faster, more efficient apps.
+			Svelte는 최대한 많은 작업을 브라우저가 아닌 빌드 단계에서 수행합니다. 더 이상 더 이상 수동 최적화가 필요 없습니다.
+			더 빠르고 효율적인 앱만 있으면 됩니다.
 		</p>
 	</div>
 
 	<div slot="two">
 		<h2>compact</h2>
 		<p>
-			Write breathtakingly concise components using languages you already know — HTML, CSS and
-			JavaScript. Oh, and your application bundles will be tiny as well.
+			이미 알고 있는 언어인 HTML, CSS, 자바스크립트를 사용하여 놀랍도록 간결한 컴포넌트를 작성하세요.
+			오, 그리고 애플리케이션 번들의 크기도 작아집니다.
 		</p>
 	</div>
 
 	<div slot="three">
 		<h2>complete</h2>
 		<p>
-			Built-in scoped styling, state management, motion primitives, form bindings and more — don't
-			waste time trawling npm for the bare essentials. It's all here.
+			범위 지정 스타일링, 상태 관리, 모션 프리미티브, 폼 바인딩 등이 내장되어 있습니다.
+			npm을 찾느라 시간을 낭비하지 마세요. 모든 것이 여기에 있습니다.
 		</p>
 	</div>
 </Blurb>
