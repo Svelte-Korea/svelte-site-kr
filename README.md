@@ -4,16 +4,13 @@
 
 ## 스벨트란 무엇인가요?
 
-스벨트는 웹 애플리케이션을 구축하는 새로운 방법입니다.
-스벨트는 선언적 컴포넌트를 가져와서 DOM을 효율적으로 업데이트하는 자바스크립트로 변환하는 컴파일러입니다.
+스벨트는 웹 애플리케이션을 구축하는 새로운 방법입니다. 스벨트는 선언적 컴포넌트를 가져와서 DOM을 효율적으로 업데이트하는 자바스크립트로 변환하는 컴파일러입니다.
 
 자세한 내용은 [스벨트 한국 사이트](https://svelte.kr)에서 확인하거나. [디스코드 채팅방](https://svelte.dev/chat)을 방문해서 알아보세요.
 
 ## 스벨트 후원하기
 
-스벨트는 MIT 라이선스의 오픈 소스 프로젝트로, 훌륭한 자원봉사자들에 의해 지속적인 개발이 이루어지고 있습니다.
-
-자원봉사자들의 노력에 힘을 보태고 싶으시다면 참여해 주세요:
+스벨트는 MIT 라이선스의 오픈 소스 프로젝트로, 훌륭한 자원봉사자들에 의해 지속적인 개발이 이루어지고 있습니다. 자원봉사자들의 노력에 힘을 보태고 싶으시다면 참여해 주세요:
 
 - [Open Collective의 후원자 되기](https://opencollective.com/svelte).
 
@@ -40,8 +37,6 @@ pnpm install
 ```
 
 > 종속성을 설치하는 데에 Yarn을 사용하지 마세요. `pnpm-lock.json` 의 특정 패키지 버전을 사용하여 스벨트를 빌드하고 테스트하고 있습니다.
-
-To build the compiler and all the other modules included in the package:
 
 컴파일러와 패키지에 포함된 다른 모든 모듈을 빌드하기 위해 다음처럼 진행하세요:
 
@@ -70,8 +65,6 @@ pnpm test -- -g transition
 ```
 
 ### svelte.dev
-
-The source code for https://svelte.dev lives in the [sites](https://github.com/sveltejs/svelte/tree/master/sites/svelte.dev) folder, with all the documentation right [here](https://github.com/sveltejs/svelte/tree/master/documentation). The site is built with [SvelteKit](https://kit.svelte.dev).
 
 https://svelte.dev 의 소스 코드는 [sites](https://github.com/sveltejs/svelte/tree/master/sites/svelte.dev) 폴더에 있으며, 모든 문서는 바로 [여기](https://github.com/sveltejs/svelte/tree/master/documentation)에 있습니다. 이 사이트는 [스벨트킷](https://kit.svelte.dev)으로 구축되었습니다.
 
