@@ -1,0 +1,35 @@
+name: '번역 요청'
+description: 아직 번역되지 않은 문서 번역 및 잘못된 번역 수정 요청
+labels: [translation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        번역에 기여해 주셔서 감사합니다! 아래 내용을 채워주세요.
+  - type: textarea
+    id: docs
+    attributes:
+      label: 번역 대상 문서
+      description: 수정할 대상 문서를 적어주세요.
+      placeholder: 이 문서를 수정하고 싶어요 ...
+    validations:
+      required: true
+  - type: textarea
+    id: line
+    attributes:
+      label: 번역 대상 줄
+      description:  이미 번역된 문서의 잘못된 번역을 수정하고 싶다면, 줄 번호와 이유를 적어주세요. (선택)
+      placeholder: 이 부분을 수정하고 싶어요 ...
+    validations:
+      required: false
+  - type: dropdown
+    id: importance
+    attributes:
+      label: 중요도
+      description: 얼마나 중요한 번역인가요?
+      options:
+        - 하면 좋겠지만 급하진 않아요
+        - 중간 정도예요
+        - 조만간 해야겠어요
+    validations:
+      required: true
