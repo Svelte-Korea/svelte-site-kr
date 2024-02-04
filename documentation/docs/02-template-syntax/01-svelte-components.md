@@ -1,44 +1,44 @@
 ---
-title: Svelte components
+title: 스벨트 컴포넌트
 ---
 
-Components are the building blocks of Svelte applications. They are written into `.svelte` files, using a superset of HTML.
+컴포넌트는 스벨트 애플리케이션의 빌딩 블록입니다. 컴포넌트는 HTML의 상위 집합을 사용하여 `.svelte` 파일로 작성됩니다.
 
-All three sections — script, styles and markup — are optional.
+스크립트, 스타일, 마크업의 세 가지 섹션은 선택 사항입니다.
 
 ```svelte
 <script>
-	// logic goes here
+	// 여기에 스크립트
 </script>
 
-<!-- markup (zero or more items) goes here -->
+<!-- 여기에 마크업 (0개 이상 항목) -->
 
 <style>
-	/* styles go here */
+	/* 여기에 스타일 */
 </style>
 ```
 
-## &lt;script&gt;
+## 스크립트 (&lt;script&gt;)
 
-A `<script>` block contains JavaScript that runs when a component instance is created. Variables declared (or imported) at the top level are 'visible' from the component's markup. There are four additional rules:
+`<script>` 블록에는 컴포넌트 인스턴스가 생성될 때 실행되는 자바스크립트가 포함되어 있습니다. 최상위 수준에서 선언(또는 imported)된 변수는 컴포넌트의 마크업에서 '보여'집니다. 네 가지 추가 규칙이 있습니다:
 
-### 1. `export` creates a component prop
+### 1. `export` 는 컴포넌트 프로퍼티를 생성함
 
-Svelte uses the `export` keyword to mark a variable declaration as a _property_ or _prop_, which means it becomes accessible to consumers of the component (see the section on [attributes and props](/docs/basic-markup#attributes-and-props) for more information).
+스벨트는 `export` (내보내기) 키워드를 사용하여 변수 선언을 _property_ 또는 _prop_ 으로 표시하는데, 이는 컴포넌트의 컨슈머(소비자)가 액세스할 수 있음을 의미합니다 (자세한 내용은 [attributes and props](/docs/basic-markup#attributes-and-props) 섹션을 참조하세요).
 
 ```svelte
 <script>
 	export let foo;
 
-	// Values that are passed in as props
-	// are immediately available
+	// prop으로 전달된 값은
+	// 즉시 사용 가능
 	console.log({ foo });
 </script>
 ```
 
-You can specify a default initial value for a prop. It will be used if the component's consumer doesn't specify the prop on the component (or if its initial value is `undefined`) when instantiating the component. Note that if the values of props are subsequently updated, then any prop whose value is not specified will be set to `undefined` (rather than its initial value).
+prop의 기본 초기값을 지정할 수 있습니다. 이는 컴포넌트를 인스턴스로 만들 때 컴포넌트의 컨슈머가 컴포넌트에서 prop을 지정하지 않거나 초기 값이 `undefined`인 경우 사용됩니다. 이후 프로퍼티의 값이 업데이트되면 값이 지정되지 않은 모든 prop은 초기 값이 아닌 `undefined`로 설정된다는 점에 유의하세요.
 
-In development mode (see the [compiler options](/docs/svelte-compiler#compile)), a warning will be printed if no default initial value is provided and the consumer does not specify a value. To squelch this warning, ensure that a default initial value is specified, even if it is `undefined`.
+개발 모드([compiler options](/docs/svelte-compiler#compile) 참조)에서 기본 초기값이 제공되지 않고 컨슈머가 값을 지정하지 않으면 경고가 출력됩니다. 이 경고를 없애려면 `undefined`이더라도 기본 초기값이 지정되어 있는지 확인하세요.
 
 ```svelte
 <script>
@@ -47,12 +47,12 @@ In development mode (see the [compiler options](/docs/svelte-compiler#compile)),
 </script>
 ```
 
-If you export a `const`, `class` or `function`, it is readonly from outside the component. Functions are valid prop values, however, as shown below.
+`const`, `class` 또는 `function`을 내보내면 컴포넌트 외부에서 읽기 전용이 됩니다. 그러나 `function`은 아래와 같이 유효한 prop 값입니다.
 
 ```svelte
 <!--- file: App.svelte --->
 <script>
-	// these are readonly
+	// 이것은 읽기 전용입니다
 	export const thisIs = 'readonly';
 
 	/** @param {string} name */
@@ -60,12 +60,12 @@ If you export a `const`, `class` or `function`, it is readonly from outside the 
 		alert(`hello ${name}!`);
 	}
 
-	// this is a prop
+	// 이것이 prop 입니다
 	export let format = (n) => n.toFixed(2);
 </script>
 ```
 
-Readonly props can be accessed as properties on the element, tied to the component using [`bind:this` syntax](/docs/component-directives#bind-this).
+읽기 전용 프로퍼티는 요소의 프로퍼티로 액세스할 수 있으며, [`bind:this` syntax](/docs/component-directives#bind-this)을 사용하여 컴포넌트에 연결할 수 있습니다.
 
 You can use reserved words as prop names.
 
@@ -75,68 +75,68 @@ You can use reserved words as prop names.
 	/** @type {string} */
 	let className;
 
-	// creates a `class` property, even
-	// though it is a reserved word
+	// `class` 프로퍼티 생성
+	// (예약어이긴 하지만)
 	export { className as class };
 </script>
 ```
 
-### 2. Assignments are 'reactive'
+### 2. 할당은 '반응형'
 
-To change component state and trigger a re-render, just assign to a locally declared variable.
+컴포넌트 상태를 변경하고 화면을 새로 그리려면 로컬로 선언된 변수에 할당하면 됩니다.
 
-Update expressions (`count += 1`) and property assignments (`obj.x = y`) have the same effect.
+업데이트 표현식(`count += 1`)과 프로퍼티 할당(`obj.x = y`)은 동일한 효과가 있습니다.
 
 ```svelte
 <script>
 	let count = 0;
 
 	function handleClick() {
-		// calling this function will trigger an
-		// update if the markup references `count`
+		// 마크업이 `count`를 참조하는 경우
+		// 이 함수를 호출하면 업데이트를 트리거함
 		count = count + 1;
 	}
 </script>
 ```
 
-Because Svelte's reactivity is based on assignments, using array methods like `.push()` and `.splice()` won't automatically trigger updates. A subsequent assignment is required to trigger the update. This and more details can also be found in the [tutorial](https://learn.svelte.dev/tutorial/updating-arrays-and-objects).
+스벨트의 반응성은 할당을 기반으로 하므로 `.push()` 및 `.splice()`와 같은 배열 메서드를 사용한다고 해서 자동으로 업데이트가 트리거되지는 않습니다. 업데이트를 트리거하려면 후속 할당이 필요합니다. 이에 대한 자세한 내용은 [튜토리얼](https://learn.svelte.dev/tutorial/updating-arrays-and-objects)에서도 확인할 수 있습니다..
 
 ```svelte
 <script>
 	let arr = [0, 1];
 
 	function handleClick() {
-		// this method call does not trigger an update
+		// 이 메서드 호출은 업데이트를 트리거하지 않음
 		arr.push(2);
-		// this assignment will trigger an update
-		// if the markup references `arr`
+		// 마크업이 `arr`를 참조하는 경우
+		// 이 할당에서 업데이트를 트리거함
 		arr = arr;
 	}
 </script>
 ```
 
-Svelte's `<script>` blocks are run only when the component is created, so assignments within a `<script>` block are not automatically run again when a prop updates. If you'd like to track changes to a prop, see the next example in the following section.
+스벨트의 `<script>` 블록은 컴포넌트가 생성될 때만 실행되므로, `<script>` 블록 내의 할당은 컴포넌트가 업데이트될 때 자동으로 다시 실행되지 않습니다. 컴포넌트의 변경 사항을 추적하려면 다음 섹션의 예시를 참조하세요.
 
 ```svelte
 <script>
 	export let person;
-	// this will only set `name` on component creation
-	// it will not update when `person` does
+	// 컴포넌트 생성 시에만 `name` 설정
+	// `person`이 생성될 때는 업데이트되지 않음
 	let { name } = person;
 </script>
 ```
 
-### 3. `$:` marks a statement as reactive
+### 3. `$:` 를 사용해 스테이트먼트를 반응형으로 표시
 
-Any top-level statement (i.e. not inside a block or a function) can be made reactive by prefixing it with the `$:` [JS label syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label). Reactive statements run after other script code and before the component markup is rendered, whenever the values that they depend on have changed.
+블록이나 함수 내부가 아닌 최상위 스테이트먼트(문) 앞에 `$:` [JS label syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label)을 추가하여 반응형 스테이트먼트로 만들 수 있습니다. 반응형 스테이트먼트는 다른 스크립트 코드 다음에 컴포넌트 마크업이 렌더링되기 전에 해당 스테이트먼트가 의존하는 값이 변경될 때마다 실행됩니다.
 
 ```svelte
 <script>
 	export let title;
 	export let person;
 
-	// this will update `document.title` whenever
-	// the `title` prop changes
+	// `title`프로퍼티가 변경될 때마다
+	// `document.title`을 업데이트
 	$: document.title = title;
 
 	$: {
@@ -144,15 +144,15 @@ Any top-level statement (i.e. not inside a block or a function) can be made reac
 		console.log(`the current title is ${title}`);
 	}
 
-	// this will update `name` when 'person' changes
+	// `person`이 변경될 때 `name`을 업데이트
 	$: ({ name } = person);
 
-	// don't do this. it will run before the previous line
+	// 이렇게 하지 말 것. 이 줄은 이전 줄이 실행되기 전에 실행됨
 	let name2 = name;
 </script>
 ```
 
-Only values which directly appear within the `$:` block will become dependencies of the reactive statement. For example, in the code below `total` will only update when `x` changes, but not `y`.
+블록 `$:` 내에 직접 나타나는 값만 반응형 스테이트먼트에 종속됩니다. 예를 들어, 아래 코드에서 `total`은 `x`가 변경될 때만 업데이트되고 `y`는 업데이트되지 않습니다.
 
 ```svelte
 <!--- file: App.svelte --->
@@ -174,7 +174,7 @@ Total: {total}
 <button on:click={() => y++}> Increment Y </button>
 ```
 
-It is important to note that the reactive blocks are ordered via simple static analysis at compile time, and all the compiler looks at are the variables that are assigned to and used within the block itself, not in any functions called by them. This means that `yDependent` will not be updated when `x` is updated in the following example:
+반응형 블록은 컴파일 시 간단한 정적 분석을 통해 정렬되며, 컴파일러는 블록이 호출하는 함수가 아닌 블록 자체에 할당되고 사용되는 변수만 살펴본다는 점에 유의해야 합니다. 즉, 다음 예제에서 `x`가 업데이트될 때 `yDependent`는 업데이트되지 않습니다:
 
 ```svelte
 <script>
@@ -191,9 +191,9 @@ It is important to note that the reactive blocks are ordered via simple static a
 </script>
 ```
 
-Moving the line `$: yDependent = y` below `$: setY(x)` will cause `yDependent` to be updated when `x` is updated.
+`yDependent = y` 줄을 `$: setY(x)` 아래로 옮기면 `x`가 업데이트될 때 `yDependent`가 업데이트됩니다.
 
-If a statement consists entirely of an assignment to an undeclared variable, Svelte will inject a `let` declaration on your behalf.
+명령문이 선언되지 않은 변수에 대한 대입으로만 구성된 경우, 스벨트는 사용자를 대신해 `let` 선언을 삽입합니다.
 
 ```svelte
 <!--- file: App.svelte --->
@@ -201,24 +201,24 @@ If a statement consists entirely of an assignment to an undeclared variable, Sve
 	/** @type {number} */
 	export let num;
 
-	// we don't need to declare `squared` and `cubed`
-	// — Svelte does it for us
+	// `squared`과 `cubed`를 선언(let)할 필요 없음
+	// — 스벨트가 대신 해 줌
 	$: squared = num * num;
 	$: cubed = squared * num;
 </script>
 ```
 
-### 4. Prefix stores with `$` to access their values
+### 4. `$`를 스토어 앞에 붙여서 그 값에 접근
 
-A _store_ is an object that allows reactive access to a value via a simple _store contract_. The [`svelte/store` module](/docs/svelte-store) contains minimal store implementations which fulfil this contract.
+_store_는 간단한 _store contract_를 통해 값에 대한 반응형 액세스를 허용하는 객체입니다. [`svelte/store` module](/docs/svelte-store) 에는 이 컨트랙트를 이행하는 최소한의 저장소 구현이 포함되어 있습니다.
 
-Any time you have a reference to a store, you can access its value inside a component by prefixing it with the `$` character. This causes Svelte to declare the prefixed variable, subscribe to the store at component initialization and unsubscribe when appropriate.
+스토어에 대한 참조가 있을 때마다 컴포넌트 내부에서 `$` 문자를 접두사로 붙여서 해당 값에 액세스할 수 있습니다. 이렇게 하면 스벨트가 접두사가 붙은 변수를 선언하고 컴포넌트 초기화 시 스토어에 구독하고 적절한 경우 구독을 취소합니다.
 
-Assignments to `$`-prefixed variables require that the variable be a writable store, and will result in a call to the store's `.set` method.
+접두사가 `$`인 변수에 할당하려면 해당 변수가 쓰기 가능한 스토어여야 하며, 저장소의 `.set` 메서드를 호출하게 됩니다.
 
-Note that the store must be declared at the top level of the component — not inside an `if` block or a function, for example.
+스토어는 `if` 블록이나 함수 내부가 아닌 컴포넌트의 최상위 레벨에서 선언해야 합니다.
 
-Local variables (that do not represent store values) must _not_ have a `$` prefix.
+(스토어 값을 나타내지 않는) 로컬 변수에는 `$` 접두사가 _없어야_ 합니다.
 
 ```svelte
 <script>
@@ -235,36 +235,36 @@ Local variables (that do not represent store values) must _not_ have a `$` prefi
 </script>
 ```
 
-#### Store contract
+#### 스토어 컨트랙트 (Store contract)
 
 ```ts
 // @noErrors
 store = { subscribe: (subscription: (value: any) => void) => (() => void), set?: (value: any) => void }
 ```
 
-You can create your own stores without relying on [`svelte/store`](/docs/svelte-store), by implementing the _store contract_:
+스토어 컨트랙트_를 구현하여 [`svelte/store`](/docs/svelte-store)에 의존하지 않고도 자체 스토어를 만들 수 있습니다:
 
-1. A store must contain a `.subscribe` method, which must accept as its argument a subscription function. This subscription function must be immediately and synchronously called with the store's current value upon calling `.subscribe`. All of a store's active subscription functions must later be synchronously called whenever the store's value changes.
-2. The `.subscribe` method must return an unsubscribe function. Calling an unsubscribe function must stop its subscription, and its corresponding subscription function must not be called again by the store.
-3. A store may _optionally_ contain a `.set` method, which must accept as its argument a new value for the store, and which synchronously calls all of the store's active subscription functions. Such a store is called a _writable store_.
+1. 스토어에는 구독 함수를 인수로 받는 '.subscribe' 메서드가 포함되어야 합니다. 이 구독 함수는 '.subscribe'를 호출할 때 스토어의 현재 값과 함께 즉시 동기적으로 호출되어야 합니다. 나중에 스토어 값이 변경될 때마다 스토어의 모든 활성 구독 함수가 동기적으로 호출되어야 합니다.
+2. .subscribe` 메서드는 구독 취소 함수를 반환해야 합니다. 구독 취소 함수를 호출하면 구독이 중지되어야 하며, 스토어에서 해당 구독 함수를 다시 호출하지 않아야 합니다.
+3. 스토어는 스토어에 대한 새 값을 인수로 받아들여야 하며 스토어의 모든 활성 구독 함수를 동기적으로 호출하는 '.set' 메서드를 _선택적으로_ 포함할 수 있습니다. 이러한 스토어를 _쓰기 가능한 스토어_라고 합니다.
 
-For interoperability with RxJS Observables, the `.subscribe` method is also allowed to return an object with an `.unsubscribe` method, rather than return the unsubscription function directly. Note however that unless `.subscribe` synchronously calls the subscription (which is not required by the Observable spec), Svelte will see the value of the store as `undefined` until it does.
+RxJS 옵저버블과의 상호 운용성을 위해 `.subscribe` 메서드는 구독 취소 함수를 직접 반환하는 대신 `.unsubscribe` 메서드가 있는 객체를 반환하는 것도 허용됩니다. 그러나 `.subscribe`가 구독을 동기적으로 호출하지 않는 한(옵저버블 사양에서 요구하지 않음), 스벨트는 구독을 호출할 때까지 저장소의 값을 `undefined`로 간주합니다.
 
 ## &lt;script context="module"&gt;
 
-A `<script>` tag with a `context="module"` attribute runs once when the module first evaluates, rather than for each component instance. Values declared in this block are accessible from a regular `<script>` (and the component markup) but not vice versa.
+`context="module"` 속성이 있는 `<script>` 태그는 각 컴포넌트 인스턴스마다 실행되는 것이 아니라 모듈이 처음 평가될 때 한 번 실행됩니다. 이 블록에 선언된 값은 일반 `<script>`(및 컴포넌트 마크업)에서 액세스할 수 있지만 그 반대의 경우는 불가능합니다.
 
-You can `export` bindings from this block, and they will become exports of the compiled module.
+이 블록에서 바인딩을 `export`할 수 있으며, 컴파일된 모듈의 내보내기가 됩니다.
 
-You cannot `export default`, since the default export is the component itself.
+기본 내보내기는 컴포넌트 자체이므로 `export default`는 불가능합니다.
 
-> Variables defined in `module` scripts are not reactive — reassigning them will not trigger a rerender even though the variable itself will update. For values shared between multiple components, consider using a [store](/docs/svelte-store).
+> `module` 스크립트에 정의된 변수는 반응형 변수가 아니므로 변수를 재할당해도 변수 자체는 업데이트되더라도 다시 렌더링되지 않습니다. 여러 컴포넌트 간에 공유되는 값의 경우, [store](/docs/svelte-store)를 사용하는 것이 좋습니다.
 
 ```svelte
 <script context="module">
 	let totalComponents = 0;
 
-	// the export keyword allows this function to imported with e.g.
+	// export 키워드를 사용하면 이 함수를 다음처럼 가져올 수 있음
 	// `import Example, { alertTotal } from './Example.svelte'`
 	export function alertTotal() {
 		alert(totalComponents);
@@ -279,63 +279,63 @@ You cannot `export default`, since the default export is the component itself.
 
 ## &lt;style&gt;
 
-CSS inside a `<style>` block will be scoped to that component.
+`<style>` 블록 안의 CSS는 해당 컴포넌트로 범위가 지정됩니다.
 
-This works by adding a class to affected elements, which is based on a hash of the component styles (e.g. `svelte-123xyz`).
+이는 영향을 받는 요소에 컴포넌트 스타일의 해시(예: `svelte-123xyz`)를 기반으로 하는 클래스를 추가하는 방식으로 작동합니다.
 
 ```svelte
 <style>
 	p {
-		/* this will only affect <p> elements in this component */
+		/* 이 컴포넌트의 <p> 요소에만 영향을 미침 */
 		color: burlywood;
 	}
 </style>
 ```
 
-To apply styles to a selector globally, use the `:global(...)` modifier.
+셀렉터에 스타일을 전역적으로 적용하려면 `:global(...)` 모디파이어를 사용합니다.
 
 ```svelte
 <style>
 	:global(body) {
-		/* this will apply to <body> */
+		/* <body>에 적용 */
 		margin: 0;
 	}
 
 	div :global(strong) {
-		/* this will apply to all <strong> elements, in any
-			 component, that are inside <div> elements belonging
-			 to this component */
+		/* 이 컴포넌트에 속한
+			<div> 요소 안에 있는
+			모든 <strong> 요소에 적용 */
 		color: goldenrod;
 	}
 
 	p:global(.red) {
-		/* this will apply to all <p> elements belonging to this
-			 component with a class of red, even if class="red" does
-			 not initially appear in the markup, and is instead
-			 added at runtime. This is useful when the class
-			 of the element is dynamically applied, for instance
-			 when updating the element's classList property directly. */
+		/* 이렇게 설정하면 마크업에 처음에
+			 class="red"가 나타나지 않고 런타임에
+			 추가되더라도 class="red"인 이 컴포넌트에
+			 속한 모든 <p> 요소에 적용됩니다. 이는 요소의
+			 classList 속성을 직접 업데이트하는 등
+			 요소의 클래스가 동적으로 적용될 때 유용합니다. */
 	}
 </style>
 ```
 
-If you want to make @keyframes that are accessible globally, you need to prepend your keyframe names with `-global-`.
+전역적으로 액세스할 수 있는 @keyframes를 만드려면 키프레임 이름 앞에 `-global-`을 추가해야 합니다.
 
-The `-global-` part will be removed when compiled, and the keyframe then be referenced using just `my-animation-name` elsewhere in your code.
+컴파일할 때 `-global-` 부분이 제거되고 코드의 다른 곳에서 `my-animation-name`만 사용하여 키프레임을 참조할 수 있습니다.
 
 ```svelte
 <style>
 	@keyframes -global-my-animation-name {
-		/* code goes here */
+		/* 여기에 코드 */
 	}
 </style>
 ```
 
-There should only be 1 top-level `<style>` tag per component.
+컴포넌트당 최상위 `<style>` 태그는 1개만 있어야 합니다.
 
-However, it is possible to have `<style>` tag nested inside other elements or logic blocks.
+그러나 다른 요소나 로직 블록 안에 `<style>` 태그를 중첩할 수 있습니다.
 
-In that case, the `<style>` tag will be inserted as-is into the DOM, no scoping or processing will be done on the `<style>` tag.
+이 경우 `<style>` 태그는 DOM에 그대로 삽입되며, `<style>` 태그에 대한 스코핑이나 처리는 수행되지 않습니다.
 
 ```svelte
 <div>
